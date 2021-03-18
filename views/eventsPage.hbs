@@ -1,0 +1,13 @@
+<h1>All Events</h1>
+
+
+{{#if eventList}}
+{{#each eventList}}
+<a href="/events/{{this.slug}}">
+  <p>{{this.name}}</p>
+</a>
+{{/each}}
+{{else}}
+<p>No events found. Try again</p>
+<a href="/">Click here</a>
+{{/if}}

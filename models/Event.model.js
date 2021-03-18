@@ -16,7 +16,7 @@ const eventSchema = new Schema({
     enum: LOCATION_ENUM,
   },
   date: {
-    type: date,
+    type: Date,
     attendees: {
       type: [String],
       default: [],

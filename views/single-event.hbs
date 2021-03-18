@@ -1,0 +1,8 @@
+{{#if event}}
+{{#with event}}
+<h1>{{this.name}}</h1>
+<p>{{this.description}}</p>
+{{/with}}
+{{else}}
+<p>This event does not exist. <a href="/events/new">Create event</a></p>
+{{/if}}

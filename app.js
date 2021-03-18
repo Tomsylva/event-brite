@@ -23,17 +23,20 @@ const projectName = "potato-brite";
 const capitalized = (string) =>
   string[0].toUpperCase() + string.slice(1).toLowerCase();
 
-app.locals.title = `${capitalized(projectName)}- Generated with IronGenerator`;
+app.locals.title = `${capitalized(projectName)}- Generated with IronLauncher`;
 
 // 👇 Start handling routes here
 const indexRoutes = require("./routes/index");
 app.use("/", indexRoutes);
-
-const authRoutes = require("./routes/auth");
-app.use("/auth", authRoutes);
-
 const eventRoutes = require("./routes/events");
-app.use("/event", eventRoutes);
+
+app.use("/events", eventRoutes);
+
+// const authRoutes = require("./routes/auth");
+// app.use("/auth", authRoutes);
+
+// const eventRoutes = require("./routes/events");
+// app.use("/event", eventRoutes);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
