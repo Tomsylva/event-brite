@@ -1,0 +1,12 @@
+<h4>Log in Page</h4>
+
+<form action="/auth/login" method="POST">
+  <input type="text" placeholder="Username or email" name="usernameOrEmail">
+  <input type="password" placeholder="password" name="password">
+
+  <button type="submit">Log in</button>
+</form>
+
+{{#if errorMessage}}
+<h3>{{errorMessage}}</h3>
+{{/if}}
