@@ -32,7 +32,8 @@ const userSchema = new Schema({
   },
   profilePic: {
     type: String,
-    default: "",
+    default:
+      "https://res.cloudinary.com/dlfxinw9v/image/upload/v1616236239/britato_g3sglf.png",
   },
 });
 

@@ -15,6 +15,19 @@ router.get("/signup", (req, res) => {
 router.post("/signup", (req, res) => {
   // console.log(req.body);
   const { name, username, email, password } = req.body;
+
+  if (!name || !email || !username) {
+    res.render("signup", { errorMessage: "All fields are required" });
+    return;
+  }
+
+  if (password.length < 8) {
+    res.render("signup", {
+      errorMessage: "Password must be at least 8 characters",
+    });
+    return;
+  }
+
   User.findOne({ $or: [{ username }, { email }] }).then((found) => {
     // console.log("Found: ", found);
     if (found) {
