@@ -42,7 +42,7 @@ router.post("/signup", (req, res) => {
       name,
       password: hashedPassword,
     }).then((createdUser) => {
-      console.log("createdUser: ", createdUser);
+      // console.log("createdUser: ", createdUser);
       req.session.userId = createdUser._id;
       res.redirect("/");
     });
@@ -55,7 +55,7 @@ router.get("/login", (req, res) => {
 
 router.post("/signup", (req, res) => {
   const { name, username, email, password } = req.body;
-  console.log("req.body:", req.body);
+  // console.log("req.body:", req.body);
   User.findOne({ $or: [{ username }, { email }] })
     .then((found) => {
       if (found) {
@@ -66,23 +66,23 @@ router.post("/signup", (req, res) => {
       }
       // Here we know that the username is unique
       const generatedSalt = bcrypt.genSaltSync(saltRounds);
-      console.log("generatedSalt:", generatedSalt);
+      // console.log("generatedSalt:", generatedSalt);
       const hashedPassword = bcrypt.hashSync(password, generatedSalt);
-      console.log("hashedPassword:", hashedPassword);
+      // console.log("hashedPassword:", hashedPassword);
       User.create({
         username,
         email,
         name,
         password: hashedPassword,
       }).then((createdUser) => {
-        console.log("createdUser:", createdUser);
+        // console.log("createdUser:", createdUser);
         // req.session.userId = createdUser._id
         req.session.user = createdUser;
         res.redirect("/");
       });
     })
     .catch((err) => {
-      console.log("Err", err);
+      // console.log("Err", err);
       res.render("signup", { errorMessage: "Oppsie daisy" });
     });
 });

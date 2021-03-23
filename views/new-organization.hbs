@@ -1,0 +1,24 @@
+<br><br>
+<form action="/organization/new" method="POST">
+  <label for="name">Organization Name</label>
+  <br>
+  <input type="text" name="name" placeholder="Name of Organization" required>
+  <br><br>
+  <label for="description">Organization Description</label>
+  <br>
+  <input type="text" name="description" placeholder="Describe your Organization" required>
+  <br><br>
+  <label for="location">Organization Location</label>
+  <br>
+  <select name="location" id="location" required>
+    {{#each locations}}
+    <option value="{{this}}">{{this}}</option>
+    {{/each}}
+  </select>
+  <br><br>
+  <button type="submit">Create Organization</button>
+</form>
+
+{{#if errorMessage}}
+<h3>{{errorMessage}}</h3>
+{{/if}}

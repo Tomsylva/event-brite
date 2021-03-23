@@ -30,6 +30,13 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  if (req.session.user) {
+    res.locals.user = req.session.user;
+  }
+  next();
+});
+
 // 👇 Start handling routes here
 const indexRoutes = require("./routes/index");
 app.use("/", indexRoutes);
@@ -43,8 +50,8 @@ app.use("/events", eventRoutes);
 const profileRoutes = require("./routes/profile");
 app.use("/profile", profileRoutes);
 
-// const authRoutes = require("./routes/auth");
-// app.use("/auth", authRoutes);
+const organizationRoutes = require("./routes/organization");
+app.use("/organization", organizationRoutes);
 
 // const eventRoutes = require("./routes/events");
 // app.use("/event", eventRoutes);

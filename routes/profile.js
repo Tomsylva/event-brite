@@ -19,7 +19,7 @@ router.post("/edit", isLoggedMiddleWare, (req, res) => {
     { name, shortBio },
     { new: true }
   ).then((newUser) => {
-    console.log("newUser: ", newUser);
+    // console.log("newUser: ", newUser);
     req.session.user = newUser;
     res.redirect("/profile");
   });
