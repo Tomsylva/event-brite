@@ -2,6 +2,8 @@ const express = require("express");
 const LOCATION_ENUM = require("../utils/consts");
 const isLoggedMiddleware = require("../middleware/MustBeLoggedIn");
 const Organization = require("../models/Organization.model");
+const Event = require("../models/Event.model");
+const slugify = require("slugify");
 
 const router = express.Router();
 
@@ -15,8 +17,8 @@ router.get("/my-organization", isLoggedMiddleware, (req, res) => {
         { members: { $in: req.session.user._id } },
       ],
     }).then((whereIAmNotOwner) => {
-      console.log("owner: ", whereIamOwner);
-      console.log("nicht owner: ", whereIAmNotOwner);
+      // console.log("owner: ", whereIamOwner);
+      // console.log("nicht owner: ", whereIAmNotOwner);
       res.render("my-orgs", { owner: whereIamOwner, member: whereIAmNotOwner });
 
       // {{!-- {{#unless}} --}}
@@ -82,8 +84,70 @@ router.get("/:mufasa", (req, res) => {
       if (!foundOrg) {
         return res.redirect("/");
       }
-      res.render("single-organization", { organization: foundOrg });
+
+      let isOwner = false;
+
+      if (req.session.user) {
+        if (foundOrg.owner.username === req.session.user.username) {
+          isOwner = true;
+        }
+      }
+
+      res.render("org/single-organization", {
+        organization: foundOrg,
+        isOwner,
+      });
+    })
+    .catch((err) => {
+      res.redirect("/");
     });
+});
+
+router.get("/:carrots/create", isLoggedMiddleware, (req, res) => {
+  Organization.findOne({
+    _id: req.params.carrots,
+    members: { $in: req.session.user._id },
+  }).then((oneOrg) => {
+    if (!oneOrg) {
+      return res.redirect(`/organization/${req.params.carrots}/apply`);
+    }
+    res.render("org/new-event", { orgId: oneOrg._id, name: oneOrg.name });
+  });
+});
+
+router.post("/:orgId/create", isLoggedMiddleware, (req, res) => {
+  Organization.findOne({
+    _id: req.params.orgId,
+    members: { $in: req.session.user._id },
+  })
+    .then((organizationExists) => {
+      if (!organizationExists) {
+        return res.redirect("/");
+      }
+      const { name, date, venue, maxAttendees, fee, description } = req.body;
+      const slug = slugify(name, {
+        lower: true,
+      });
+      Event.create({
+        name,
+        date,
+        venue,
+        maxAttendees,
+        fee,
+        description,
+        slug,
+        organizer: organizationExists._id,
+      })
+        .then((createdEvent) => {
+          // console.log(createdEvent);
+          res.redirect(`/events/${createdEvent.slug}`);
+        })
+        .catch((err) => {
+          // console.log(err);
+          res.redirect(`/organization/${req.params.orgId}/create`);
+        });
+    })
+    .catch();
 });
 
 module.exports = router;
