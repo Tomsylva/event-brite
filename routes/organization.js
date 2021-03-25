@@ -115,6 +115,24 @@ router.get("/:carrots/create", isLoggedMiddleware, (req, res) => {
   });
 });
 
+router.get("/:anotherName/apply", isLoggedMiddleware, (req, res) => {
+  Organization.findById(req.params.anotherName)
+    .populate("members")
+    .then((found) => {
+      if (!found) {
+        return res.redirect("/");
+      }
+      const alreadyMember = found.members.find(
+        (oneMember) => oneMember.username === req.session.user.username
+      );
+
+      if (alreadyMember) {
+        return res.redirect(`/organization/${found._id}`);
+      }
+      res.render("org/apply", { orgId: found._id });
+    });
+});
+
 router.post("/:orgId/create", isLoggedMiddleware, (req, res) => {
   Organization.findOne({
     _id: req.params.orgId,

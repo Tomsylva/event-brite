@@ -1,11 +1,13 @@
 {{#if event}}
 {{#with event}}
 <h1>{{this.name}}</h1>
+<img src="{{this.mainPic}}" alt="{{this.name}}">
 <p>{{this.description}}</p>
 <p>Max Attendees: {{this.maxAttendees}}</p>
 <p>Date & Time: {{this.date}}</p>
 <p><strong>Location: {{this.location}}</strong></p>
 <p>Fee: {{this.fee}}</p>
+<p>Venue: {{this.venue}}</p>
 {{/with}}
 {{else}}
 <p>This event does not exist. <a href="/events/new">Create event</a></p>
