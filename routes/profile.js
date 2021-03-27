@@ -25,4 +25,18 @@ router.post("/edit", isLoggedMiddleWare, (req, res) => {
   });
 });
 
+router.get("/dark-mode", isLoggedMiddleWare, (req, res) => {
+  User.findByIdAndUpdate(
+    req.session.user._id,
+    {
+      prefersDarkMode: !req.session.user.prefersDarkMode,
+    },
+    { new: true }
+  ).then((updatedUser) => {
+    // UPDATES SESSION TO UPDATED USER
+    req.session.user = updatedUser;
+    res.redirect("/profile");
+  });
+});
+
 module.exports = router;
