@@ -34,7 +34,7 @@ const eventSchema = new Schema({
   },
   organizer: {
     type: Schema.Types.ObjectId,
-    ref: "Organizer",
+    ref: "Organization",
   },
   maxAttendees: {
     type: Number,

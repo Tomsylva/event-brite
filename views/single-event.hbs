@@ -8,7 +8,12 @@
 <p><strong>Location: {{this.location}}</strong></p>
 <p>Fee: {{this.fee}}</p>
 <p>Venue: {{this.venue}}</p>
+<p>Organizer: {{this.organizer.name}}</p>
 {{/with}}
 {{else}}
 <p>This event does not exist. <a href="/events/new">Create event</a></p>
+{{/if}}
+
+{{#if isOrganizingMember}}
+<a href="/events/{{event._id}}/delete">Delete this event</a>
 {{/if}}
